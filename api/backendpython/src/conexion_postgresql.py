@@ -4,7 +4,7 @@ from fastapi import HTTPException
 def get_db_connection():
     try:
         connection = psycopg2.connect(
-            host='activity-personas-1',
+            host='activity-postgresql-2',
             port='5432',
             user='persons',
             password='persons',
