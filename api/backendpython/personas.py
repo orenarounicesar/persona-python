@@ -10,7 +10,7 @@ router = APIRouter(prefix="/api/backend-python",
 
 personas_list = []
     
-@router.get("/")
+@router.get("/people")
 async def root():
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -24,15 +24,16 @@ async def root():
         cursor.close()
         connection.close()
 
-@router.get("/{numero_identificacion}")
+@router.get("/people/{numero_identificacion}")
 async def root(numero_identificacion : str):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
         cursor.execute("SELECT * FROM personas WHERE numero_identificacion = %s", (numero_identificacion,))
+        columns = [col[0] for col in cursor.description]  # Get column names
         persona = cursor.fetchone()
         if persona:
-            return persona
+            return dict(zip(columns, persona))  # Map columns to values
         else:
             raise HTTPException(status_code=404, detail="Persona no encontrada")
     except Exception as ex:
@@ -40,9 +41,8 @@ async def root(numero_identificacion : str):
     finally:
         cursor.close()
         connection.close()
-    
 
-@router.post("/", response_model=Persona, status_code=200)
+@router.post("/people", response_model=Persona, status_code=200)
 async def add_persona(persona: Persona):
     connection = get_db_connection()
     cursor = connection.cursor()
