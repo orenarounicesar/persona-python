@@ -4,11 +4,11 @@ from fastapi import HTTPException
 def get_db_connection():
     try:
         connection = psycopg2.connect(
-            host='postgresql',
+            host='activity-personas-1',
             port='5432',
-            user='root',
-            password='root',
-            database='personas'
+            user='persons',
+            password='persons',
+            database='persons'
         )
         return connection
     except Exception as ex:
@@ -32,13 +32,14 @@ def check_and_create_table():
         if not table_exists:
             cursor.execute("""
                 CREATE TABLE personas (
+                    id serial,
                     tipo_identificacion VARCHAR(50),
                     numero_identificacion VARCHAR(50) PRIMARY KEY,
                     nombre1 VARCHAR(50),
                     nombre2 VARCHAR(50),
                     apellido1 VARCHAR(50),
                     apellido2 VARCHAR(50),
-                    sexo VARCHAR(2),
+                    sexo VARCHAR(50),
                     fecha_nacimiento DATE
                 );
             """)
