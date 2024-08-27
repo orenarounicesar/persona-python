@@ -1,8 +1,9 @@
 from pydantic import BaseModel
+from typing import Optional
 from datetime import date
 
 class Persona(BaseModel):
-    id: int
+    id: Optional[int] = None
     tipo_identificacion: str
     numero_identificacion: str
     nombre1: str
