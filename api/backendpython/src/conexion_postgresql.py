@@ -1,14 +1,15 @@
 import psycopg2
 from fastapi import HTTPException
+import os
 
 def get_db_connection():
     try:
         connection = psycopg2.connect(
-            host='postgresql',
-            port='5432',
-            user='root',
-            password='root',
-            database='personas'
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            database=os.getenv('DB_NAME'),
         )
         return connection
     except Exception as ex:
