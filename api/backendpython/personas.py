@@ -44,7 +44,7 @@ async def root(numero_identificacion : str):
         connection.close()
     
 
-@router.post("/people/", response_model=Persona, status_code=200)
+@router.post("/people", response_model=Persona, status_code=200)
 async def add_persona(persona: Persona):
     connection = get_db_connection()
     cursor = connection.cursor()
